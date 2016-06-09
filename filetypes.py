@@ -1154,7 +1154,7 @@ class Mae(SchrodingerFile):
         else:
             com += co.COM_FORM.format('MMOD', 0, 1, 0, 0, 0, 0, 0, 0)
         # May want to turn on/off arg2 (continuum solvent).
-        com += co.COM_FORM.format('FFLD', 2, 0, 0, 0, 0, 0, 0, 0)
+        com += co.COM_FORM.format('FFLD', 2, 0, 0, 0, 36.7, 0, 0, 0)
         # Also may want to turn on/off cutoffs using BDCO.
         if com_opts['strs']:
             com += co.COM_FORM.format('BGIN', 0, 0, 0, 0, 0, 0, 0, 0)

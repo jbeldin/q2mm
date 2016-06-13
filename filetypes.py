@@ -1659,46 +1659,48 @@ class Structure(object):
             if (com_match and any(x in thing.comment for x in com_match)) or \
                     com_match is None:
                 datum = thing.as_data(**kwargs)
+# For heckff it removes some torsions that are close to 180, so I have removed this check
+		data.append(datum)
                 # If it's a torsion we have problems.
                 # Have to check whether an angle inside the torsion is near 0 or 180.
-                if typ == 'torsions':
-                    atom_nums = [datum.atm_1, datum.atm_2, datum.atm_3, datum.atm_4]
-                    angle_atoms_1 = [atom_nums[0], atom_nums[1], atom_nums[2]]
-                    angle_atoms_2 = [atom_nums[1], atom_nums[2], atom_nums[3]]
-                    for angle in self.angles:
-                        if set(angle.atom_nums) == set(angle_atoms_1):
-                            angle_1 = angle.value
-                            break
-                    for angle in self.angles:
-                        if set(angle.atom_nums) == set(angle_atoms_2):
-                            angle_2 = angle.value
-                            break
-                    try:
-                        logger.log(1, '>>> atom_nums: {}'.format(atom_nums))
-                        logger.log(1, '>>> angle_1: {} / angle_2: {}'.format(
-                                angle_1, angle_2))
-                    except UnboundLocalError:
-                        logger.error('>>> atom_nums: {}'.format(atom_nums))
-                        logger.error(
-                            '>>> angle_atoms_1: {}'.format(angle_atoms_1))
-                        logger.error(
-                            '>>> angle_atoms_2: {}'.format(angle_atoms_2))
-                        if 'angle_1' not in locals():
-                            logger.error("Can't identify angle_1!")
-                        else:
-                            logger.error(">>> angle_1: {}".format(angle_1))
-                        if 'angle_2' not in locals():
-                            logger.error("Can't identify angle_2!")
-                        else:
-                            logger.error(">>> angle_2: {}".format(angle_2))
-                        raise
-                    if -5. < angle_1 < 5. or 175. < angle_1 < 185. or \
-                            -5. < angle_2 < 5. or 175. < angle_2 < 185.:
-                        logger.log(
-                            1, '>>> angle_1 or angle_2 is too close to 0 or 180!')
-                        pass
-                    else:
-                        data.append(datum)
+#               if typ == 'torsions':
+#                   atom_nums = [datum.atm_1, datum.atm_2, datum.atm_3, datum.atm_4]
+#                   angle_atoms_1 = [atom_nums[0], atom_nums[1], atom_nums[2]]
+#                   angle_atoms_2 = [atom_nums[1], atom_nums[2], atom_nums[3]]
+#                   for angle in self.angles:
+#                       if set(angle.atom_nums) == set(angle_atoms_1):
+#                           angle_1 = angle.value
+#                           break
+#                   for angle in self.angles:
+#                       if set(angle.atom_nums) == set(angle_atoms_2):
+#                           angle_2 = angle.value
+#                           break
+#                   try:
+#                       logger.log(1, '>>> atom_nums: {}'.format(atom_nums))
+#                       logger.log(1, '>>> angle_1: {} / angle_2: {}'.format(
+#                               angle_1, angle_2))
+#                   except UnboundLocalError:
+#                       logger.error('>>> atom_nums: {}'.format(atom_nums))
+#                       logger.error(
+#                           '>>> angle_atoms_1: {}'.format(angle_atoms_1))
+#                       logger.error(
+#                           '>>> angle_atoms_2: {}'.format(angle_atoms_2))
+#                       if 'angle_1' not in locals():
+#                           logger.error("Can't identify angle_1!")
+#                       else:
+#                           logger.error(">>> angle_1: {}".format(angle_1))
+#                       if 'angle_2' not in locals():
+#                           logger.error("Can't identify angle_2!")
+#                       else:
+#                           logger.error(">>> angle_2: {}".format(angle_2))
+#                       raise
+#                   if -5. < angle_1 < 5. or 175. < angle_1 < 185. or \
+#                           -5. < angle_2 < 5. or 175. < angle_2 < 185.:
+#                       logger.log(
+#                           1, '>>> angle_1 or angle_2 is too close to 0 or 180!')
+#                       pass
+#                   else:
+#                       data.append(datum)
                     # atom_coords = [x.coords for x in atoms]
                     # tor_1 = geo_from_points(atom_coords[0], atom_coords[1], atom_coords[2])
                     # tor_2 = geo_from_points(atom_coords[1], atom_coords[2], atom_coords[3])
@@ -1709,8 +1711,8 @@ class Structure(object):
                     #     pass
                     # else:
                     #     data.append(datum)
-                else:
-                    data.append(datum)
+#               else:
+#                   data.append(datum)
         assert data, "No data actually retrieved!"
         return data
     def get_aliph_hyds(self):
